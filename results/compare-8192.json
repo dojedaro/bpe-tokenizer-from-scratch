@@ -1,0 +1,17 @@
+{
+  "vocab_size": 8192,
+  "train_documents": 21713,
+  "held_out_documents": 5153,
+  "held_out_chars": 2408039,
+  "ours": {
+    "merges": 7936,
+    "train_seconds": 7.5,
+    "chars_per_token": 3.979,
+    "round_trip_exact": true
+  },
+  "huggingface": {
+    "train_seconds": 2.6,
+    "chars_per_token": 3.979
+  },
+  "token_boundary_agreement": 0.998
+}

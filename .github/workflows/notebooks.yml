@@ -1,7 +1,4 @@
-name: Notebook checks
-
-# The notebooks need GPUs, API keys or private data to run end to end, so CI checks what can be
-# checked without them: every notebook is valid JSON with no syntax errors or undefined names.
+name: CI
 
 on:
   push:
@@ -12,22 +9,19 @@ permissions:
   contents: read
 
 jobs:
-  check:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
-      - run: pip install ruff==0.17.4 nbformat
-      - name: Notebooks are valid
-        run: |
-          python - <<'EOF'
-          import glob, nbformat
-          paths = [p for p in glob.glob("**/*.ipynb", recursive=True) if ".ipynb_checkpoints" not in p]
-          for p in paths:
-              nbformat.validate(nbformat.read(p, as_version=4))
-          print(f"{len(paths)} notebook(s) valid")
-          EOF
-      - name: No syntax errors or undefined names
-        run: ruff check --select E9,F63,F7,F82 --output-format github .
+      - run: pip install -e ".[dev]" nbformat
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: pytest -q
+      # The notebook downloads WikiText-2, so CI only checks that it is valid and has no syntax errors
+      # or undefined names.
+      - name: Notebook is valid
+        run: python -c "import nbformat; nbformat.validate(nbformat.read('bpe_tokenizer_wikitext2.ipynb', as_version=4))"
+      - run: ruff check --select E9,F63,F7,F82 --output-format github --no-force-exclude bpe_tokenizer_wikitext2.ipynb
