@@ -120,9 +120,7 @@ The implementation: Python standard library only. The notebook: Hugging Face `da
   size but much slower than the Rust library on large ones.
 - No special tokens yet (`[PAD]`, `[CLS]` and so on); the notebook's Hugging Face tokenizer has them.
 
-*Extracted on 2026-11-13 from a catch-all coursework repository (where it was titled "Training LLM
-from Scratch") into its own project, renamed to describe what it builds. The from-scratch implementation in `src/` was added on
-2026-11-16; before that the repository contained only the notebook.*
+*The notebook was moved into its own repository on 2026-11-13 and renamed to describe what it builds. The from-scratch implementation in `src/` was added on 2026-11-16.*
 
 ## License
 
